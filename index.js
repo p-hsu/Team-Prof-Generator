@@ -1,6 +1,6 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
-
+const Employee = require('./lib/Employee');
 const Manager = require('./lib/Manager');
 const Engineer = require('./lib/Engineer');
 const Intern = require('./lib/Intern');
@@ -60,7 +60,7 @@ const engPrompts = [
     }
 ]
 
-const intPrompts = [
+const internPrompts = [
     {
         type: 'input',
         message: 'What school does this intern attend?',
@@ -74,15 +74,57 @@ const intPrompts = [
     }
 ]
 
-// Initialize app
-function init() {
-    inquirer
-        .prompt(mainPrompts)
+let manager = [];
+let engineer = [];
+let intern = [];
+let teamArray = {manager, engineer, intern};
 
-        .then( (response, err) => {
-            err ? console.error(err) : console.log('Prompts completed and Team Profile page generated!!')
-            console.log(response);
+// Initialize app
+function initPrompts() {
+    inquirer
+        // main prompts first
+        .prompt(mainPrompts)
+        .then(({position, name, id, email}) => {
+            // conditional for Manager position
+            if (position === 'Manager') {
+                return inquirer
+                    .prompt(mngrPrompts)
+                    .then (({officeNumber, addMember}) => {
+                        manager.push(new Manager(name, id, email, officeNumber))
+                        if (addMember) {
+                            return initPrompts();
+                        }
+                    })
+            // conditional for Enginner position
+            }else if (position === 'Engineer'){
+                return inquirer
+                    .prompt(engPrompts)
+                    .then (({gitHub, addMember}) => {
+                        engineer.push(new Engineer(name, id, email, gitHub))
+                        if(addMember) {
+                            return initPrompts();
+                        }
+                    })
+            // conditional for Intern position
+            }else if (position === 'Intern'){
+                return inquirer
+                    .prompt(internPrompts)
+                    .then (({school, addMember}) => {
+                        intern.push(new Intern(name, id, email, school))
+                        console.log(teamArray)
+                        if(addMember) {
+                            return initPrompts();
+                        }
+                    })
+            }
+
         })
+
+
+        // .then( (response, err) => {
+        //     err ? console.error(err) : console.log('Prompts completed and Team Profile page generated!!')
+        //     console.log(response);
+        // })
 }
 
-init()
+initPrompts()
