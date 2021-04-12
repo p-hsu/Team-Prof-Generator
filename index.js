@@ -4,16 +4,16 @@ const Employee = require('./lib/Employee');
 const Manager = require('./lib/Manager');
 const Engineer = require('./lib/Engineer');
 const Intern = require('./lib/Intern');
-const template = require('./src/page-template');
+const genHtml = require('./src/page-template');
 
-const positionArray = ['Manager', 'Engineer', 'Intern']
+const roleArray = ['Manager', 'Engineer', 'Intern']
 
 const mainPrompts = [
     {
         type: 'list',
-        message: 'What is this employee\'s position?',
-        choices: positionArray,
-        name: 'position'
+        message: 'What is this employee\'s role?',
+        choices: roleArray,
+        name: 'role'
     },
     {
         type: 'input',
@@ -79,14 +79,14 @@ let engineer = [];
 let intern = [];
 let teamArray = {manager, engineer, intern};
 
-// Initialize app
+// function to initialize app
 function initPrompts() {
     inquirer
         // main prompts first
         .prompt(mainPrompts)
-        .then(({position, name, id, email}) => {
-            // conditional for Manager position
-            if (position === 'Manager') {
+        .then(({role, name, id, email}) => {
+            // conditional for Manager
+            if (role === 'Manager') {
                 return inquirer
                     .prompt(mngrPrompts)
                     .then (({officeNumber, addMember}) => {
@@ -95,8 +95,8 @@ function initPrompts() {
                             return initPrompts();
                         }
                     })
-            // conditional for Enginner position
-            }else if (position === 'Engineer'){
+            // conditional for Enginner
+            }else if (role === 'Engineer'){
                 return inquirer
                     .prompt(engPrompts)
                     .then (({gitHub, addMember}) => {
@@ -105,8 +105,8 @@ function initPrompts() {
                             return initPrompts();
                         }
                     })
-            // conditional for Intern position
-            }else if (position === 'Intern'){
+            // conditional for Intern
+            }else if (role === 'Intern'){
                 return inquirer
                     .prompt(internPrompts)
                     .then (({school, addMember}) => {
@@ -117,14 +117,17 @@ function initPrompts() {
                         }
                     })
             }
+        });
 
-        })
-
-
-        // .then( (response, err) => {
-        //     err ? console.error(err) : console.log('Prompts completed and Team Profile page generated!!')
-        //     console.log(response);
-        // })
 }
 
-initPrompts()
+initPrompts();
+
+function genPage() {
+    const populatedPage = genHtml(teamData)
+    fs.writeFile('./dist/index.html', populatePage, (err) => {
+    err? console.error(err) : console.log(`Prompts completed and Team Profile page generated!`)
+    })
+}
+
+genPage();
