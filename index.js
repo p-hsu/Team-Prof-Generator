@@ -6,13 +6,11 @@ const Engineer = require('./lib/Engineer');
 const Intern = require('./lib/Intern');
 const genHtml = require('./src/page-template');
 
-const roleArray = ['Manager', 'Engineer', 'Intern']
-
 const mainPrompts = [
     {
         type: 'list',
         message: 'What is this employee\'s role?',
-        choices: roleArray,
+        choices: ['Manager', 'Engineer', 'Intern'],
         name: 'role'
     },
     {
@@ -93,8 +91,11 @@ const initPrompts = () => {
                         manager.push(new Manager(name, id, email, officeNumber))
                         if (addMember) {
                             return initPrompts();
-                        }
-                    })
+                        }else {
+                            console.log(teamArray);
+                            return teamArray
+                        };
+                    });
             // conditional for Enginner
             }else if (role === 'Engineer'){
                 return inquirer
@@ -103,34 +104,43 @@ const initPrompts = () => {
                         engineer.push(new Engineer(name, id, email, gitHub))
                         if(addMember) {
                             return initPrompts();
-                        }
-                    })
+                        }else {
+                            console.log(teamArray);
+                            return teamArray
+                        };
+                    });
             // conditional for Intern
             }else if (role === 'Intern'){
                 return inquirer
                     .prompt(internPrompts)
                     .then (({school, addMember}) => {
                         intern.push(new Intern(name, id, email, school))
-                        console.log(teamArray)
                         if(addMember) {
                             return initPrompts();
-                        }
-                    })
-            }
+                        }else {
+                            console.log(teamArray);
+                            return teamArray
+                        };
+                    });
+            };
         });
 
 }
 
 const writePage = (htmlContent) => {
-    fs.writeFile('./dist/index.html', htmlContent, err => {
-        err ? console.error(err) : console.log(`
-        ************************************************
-        *********** >> Prompts completed! << ***********
-        ****** >> Team Profile page generated: << ******
-        *********** >> see "dist" folder << ************
-        ************************************************
-        `)
+    return new Promise((resolve, reject) => {
+        fs.writeFile('./dist/index.html', htmlContent, err => {
+            if (err) {
+                const issue = new Error('Something went wrong!')
+                reject(issue);
+            }else {
+                const finish = 'Prompts completed and Team Profile page generated!'
+                resolve(finish)
+                return Promise.resolve()
+            }
+        });
     });
+
 }
 
 console.log(`
@@ -141,7 +151,13 @@ console.log(`
 `);
 
 initPrompts()
-    .then(data => genHtml(data))
-    .then(pageHtml => writePage(pageHtml))
-    .catch(err => console.error(err))
+    .then(data => {
+        return genHtml(data)
+    })
+    .then(pageHtml => {
+        return writePage(pageHtml)
+    })
+    .catch(err => {
+        return console.error(err)
+    })
 

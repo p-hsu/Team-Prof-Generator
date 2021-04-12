@@ -1,5 +1,7 @@
 const genCards = teamData => { 
     
+    let allCards = [mngrCard, engCard, intCard];
+
     const mngrCard = teamData.mngrCard.map( (role)  => {
         let mngrHtml = `
         <div class="col-sm-4 pb-sm-4">
@@ -86,7 +88,7 @@ const genCards = teamData => {
         return intHtml
     });
 
-    return [mngrCard, engCard, intCard]
+    return allCards
 
 }
 
