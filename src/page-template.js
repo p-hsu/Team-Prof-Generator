@@ -90,7 +90,7 @@ const genCards = teamData => {
 
 }
 
-const genHtml = (templateData) => {
+const genHtml = templateData => {
 
     return `
     <!DOCTYPE html>
@@ -113,7 +113,7 @@ const genHtml = (templateData) => {
         
         <div class= "container">
             <div class= "row">
-                ${genCards.templateData}
+                ${genCards(templateData)}
             </div>
         </div>
 

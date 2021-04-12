@@ -80,7 +80,7 @@ let intern = [];
 let teamArray = {manager, engineer, intern};
 
 // function to initialize app
-function initPrompts() {
+const initPrompts = () => {
     inquirer
         // main prompts first
         .prompt(mainPrompts)
@@ -121,13 +121,27 @@ function initPrompts() {
 
 }
 
-initPrompts();
-
-function genPage() {
-    const populatedPage = genHtml(teamData)
-    fs.writeFile('./dist/index.html', populatePage, (err) => {
-    err? console.error(err) : console.log(`Prompts completed and Team Profile page generated!`)
-    })
+const writePage = (htmlContent) => {
+    fs.writeFile('./dist/index.html', htmlContent, err => {
+        err ? console.error(err) : console.log(`
+        ************************************************
+        *********** >> Prompts completed! << ***********
+        ****** >> Team Profile page generated: << ******
+        *********** >> see "dist" folder << ************
+        ************************************************
+        `)
+    });
 }
 
-genPage();
+console.log(`
+    ************************************************
+    ********* >> TEAM PROFILE GENERATOR << *********
+    ****** >> Please complete all prompts! << ******
+    ************************************************
+`);
+
+initPrompts()
+    .then(data => genHtml(data))
+    .then(pageHtml => writePage(pageHtml))
+    .catch(err => console.error(err))
+
