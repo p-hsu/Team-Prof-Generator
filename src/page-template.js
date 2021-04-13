@@ -1,98 +1,96 @@
 const genCards = teamData => { 
-    
-    let allCards = [mngrCard, engCard, intCard];
 
-    const mngrCard = teamData.mngrCard.map( (role)  => {
-        let mngrHtml = `
+    const manager = teamData.manager.map(function(position) {
+        let managerHtml = `
         <div class="col-sm-4 pb-sm-4">
             <div class="card border-success shadow">
                 <h5 class="card-header bg-success">Manager <i class="fas fa-briefcase"></i></h5>
                 <div class="card-body">
                     <dl class="row">
                         <dt class="col-sm-3">Name:</dt>
-                        <dd class="col-sm-9">${role.name}</dd>
+                        <dd class="col-sm-9">${position.name}</dd>
                         
                         <dt class="col-sm-3">ID:</dt>
-                        <dd class="col-sm-9">${role.id}</dd>
+                        <dd class="col-sm-9">${position.id}</dd>
                         
                         <dt class="col-sm-3">Email:</dt>
                         <dd class="col-sm-9">
-                            <a href="mailto:${role.email}">${role.email}</a>
+                            <a href="mailto:${position.email}">${position.email}</a>
                         </dd>
                         
                         <dt class="col-sm-3 text-truncate"><i class="fas fa-phone"></i> :</dt>
-                        <dd class="col-sm-9">${role.officeNumber}</dd>
+                        <dd class="col-sm-9">${position.officeNumber}</dd>
                     </dl>
                 </div>
             </div>
         </div>
         `
-        return mngrHtml
+        return managerHtml
     });
 
-    const engCard = teamData.endCard.map( (role) => {
-        let engHtml =  `
+    const engineer = teamData.engineer.map(function(position) {
+        let engineerHtml =  `
         <div class="col-sm-4 pb-sm-4">
             <div class="card border-warning shadow">
                 <h5 class="card-header bg-warning">Engineer <i class="fas fa-tools"></i></h5>
                 <div class="card-body">
                     <dl class="row">
                         <dt class="col-sm-3">Name:</dt>
-                        <dd class="col-sm-9">${role.name}</dd>
+                        <dd class="col-sm-9">${position.name}</dd>
                         
                         <dt class="col-sm-3">ID:</dt>
-                        <dd class="col-sm-9">${role.id}</dd>
+                        <dd class="col-sm-9">${position.id}</dd>
                         
                         <dt class="col-sm-3">Email:</dt>
                         <dd class="col-sm-9">
-                            <a href="mailto:${role.email}">${role.email}</a>
+                            <a href="mailto:${position.email}">${position.email}</a>
                         </dd>
                         
                         <dt class="col-sm-3 text-truncate"><i class="fab fa-github"> :</i></dt>
                         <dd class="col-sm-9">
-                            <a href="https://github.com/${role.gitHub}" target="_blank">${role.gitHub}</a>
+                            <a href="https://github.com/${position.github}" target="_blank">${position.github}</a>
                         </dd>
                     </dl>
                 </div>
             </div>
         </div>
         `
-        return engHtml
+        return engineerHtml
     });
 
-    const intCard = teamData.intCard.map( (role) => {
-        let intHtml = `
+    const intern = teamData.intern.map(function(position) {
+        let internHtml = `
         <div class="col-sm-4 pb-sm-4">
             <div class="card border-danger shadow">
                 <h5 class="card-header bg-danger">Intern <i class="fas fa-clipboard-list"></i></h5>
                 <div class="card-body">
                     <dl class="row">
                         <dt class="col-sm-3">Name:</dt>
-                        <dd class="col-sm-9">${role.name}</dd>
+                        <dd class="col-sm-9">${position.name}</dd>
                         
                         <dt class="col-sm-3">ID:</dt>
-                        <dd class="col-sm-9">${role.id}</dd>
+                        <dd class="col-sm-9">${position.id}</dd>
                         
                         <dt class="col-sm-3">Email:</dt>
                         <dd class="col-sm-9">
-                            <a href="mailto:${role.email}">${role.email}</a>
+                            <a href="mailto:${position.email}">${position.email}</a>
                         </dd>
                         
                         <dt class="col-sm-3 text-truncate"><i class="fas fa-graduation-cap"> :</i></dt>
-                        <dd class="col-sm-9">${role.school}</dd>
+                        <dd class="col-sm-9">${position.school}</dd>
                     </dl>
                 </div>
             </div>
         </div>
         `
-        return intHtml
+        return internHtml
     });
 
-    return allCards
+    return [manager,engineer,intern]
 
 }
 
-const genHtml = templateData => {
+module.exports = templateData => {
 
     return `
     <!DOCTYPE html>
@@ -127,4 +125,5 @@ const genHtml = templateData => {
     `
 }
 
-module.exports = genHtml;
+
+
