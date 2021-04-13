@@ -8,7 +8,7 @@ This application allows the client to generate a team portfolio webpage for thei
 
 ### Project Status:
 
-*Complete*
+Functional
 
 #### Issues to debug:
 
@@ -88,11 +88,35 @@ The following components are used to build the code for this project:
     * `README.md`
     * `.gitignore`
 
-### Walkthrough Video
+## Usage
+
+### Running with CLI:
+
+```
+$ directory node ./index.js
+```
+(where **directory** is the location of your index.js file)
+
+### Testing:
+
+```
+cd ./tests
+```
+The `tests` directory contains four .test.js files to be ran with Jest. (which is installed already in this source code)
+
+```
+$ tests npm test
+```
+
+## Sample Page
+
+Please see `dist` directory.
+
+## Walkthrough Video
 
 https://www.icloud.com/iclouddrive/0B3ilxxqBWC79TJd37qODpX6Q#zoom_2
 
-### Application Screenshot
+## Application Screenshot
 
 Screenshot of CL prompts:
 
